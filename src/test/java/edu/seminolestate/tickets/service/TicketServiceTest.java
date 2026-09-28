@@ -124,4 +124,37 @@ class TicketServiceTest {
           any(TicketStatus.class)
   );
  }
+ @Test
+ void createRejectsBlankRequesterName() {
+  assertThrows(
+          IllegalArgumentException.class,
+          () -> service.create("", "test@example.com",
+                  "Software", "Test description")
+  );
+ }
+ @Test
+ void createRejectsInvalidEmail() {
+  assertThrows(
+          IllegalArgumentException.class,
+          () -> service.create("Jordan Lee", "invalid-email",
+                  "Software", "Test description")
+  );
+ }
+ @Test
+ void createRejectsBlankDescription() {
+  assertThrows(
+          IllegalArgumentException.class,
+          () -> service.create("Jordan Lee", "test@example.com",
+                  "Software", "")
+  );
+ }
+ @Test
+ void createRejectsOversizedDescription() {
+  String description = "A".repeat(1001);
+  assertThrows(
+          IllegalArgumentException.class,
+          () -> service.create("Jordan Lee", "test@example.com",
+                  "Software", description)
+  );
+ }
 }

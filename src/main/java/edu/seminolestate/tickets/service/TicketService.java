@@ -45,10 +45,35 @@ public class TicketService {
          String category,
          String description) {
   String token = UUID.randomUUID().toString();
+  validateTicketInput(name, email, category, description);
   Ticket ticket =
           repo.save(name, email, category, description, token);
   log.info("Created support ticket: {}", ticket.id());
   return ticket;
+ }
+ private void validateTicketInput(
+         String name,
+         String email,
+         String category,
+         String description) {
+  if (name == null || name.isBlank()) {
+   throw new IllegalArgumentException("Requester name is required");
+  }
+  if (email == null || email.isBlank() || !email.contains("@")) {
+   throw new IllegalArgumentException("Valid email is required");
+  }
+  if (category == null || category.isBlank()) {
+   throw new IllegalArgumentException("Category is required");
+  }
+  if (description == null || description.isBlank()) {
+   throw new IllegalArgumentException("Description is required");
+  }
+  if (name.length() > 100
+          || email.length() > 254
+          || category.length() > 100
+          || description.length() > 1000) {
+   throw new IllegalArgumentException("Ticket input exceeds allowed length");
+  }
  }
 
  public void changeStatus(
