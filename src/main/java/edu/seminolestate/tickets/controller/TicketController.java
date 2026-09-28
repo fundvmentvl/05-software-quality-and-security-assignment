@@ -1,10 +1,14 @@
 package edu.seminolestate.tickets.controller;
 import edu.seminolestate.tickets.service.TicketService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 @Controller
 public class TicketController {
+ private static final Logger log =
+         LoggerFactory.getLogger(TicketController.class);
  private final TicketService service;
  public TicketController(TicketService service) {
   this.service = service;
@@ -63,7 +67,6 @@ public class TicketController {
  @ExceptionHandler(Exception.class)
  @ResponseBody
  public String error(Exception ex) {
-  return "Application error: " + ex
-          + "\nCause: " + ex.getCause();
+  return "An unexpected error occurred. Please try again.";
  }
 }
