@@ -47,7 +47,7 @@ public class TicketService {
   String token = UUID.randomUUID().toString();
   Ticket ticket =
           repo.save(name, email, category, description, token);
-  log.info("Created support ticket: {}", ticket);
+  log.info("Created support ticket: {}", ticket.id());
   return ticket;
  }
 
